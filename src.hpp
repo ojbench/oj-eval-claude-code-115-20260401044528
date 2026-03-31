@@ -84,14 +84,10 @@ class unique_ptr {
     }
 };
 
-// Bonus: 可变长参数列表 + 万能引用 + 完美转发
 // 创建一个 unique_ptr，指向一个用 new 分配的 _Tp 对象
-// 参数列表长度可变，且有左值引用和右值引用两种版本
-// 当传入左值 T &， Args 类型被推导为 T &
-// 当传入右值 T &&，Args 类型被推导为 T
-template <typename _Tp, typename... Args>
-unique_ptr<_Tp> make_unique(Args &&... args) {
-    return unique_ptr<_Tp>(new _Tp(std::forward<Args>(args)...));
+template <typename _Tp>
+unique_ptr<_Tp> make_unique(const _Tp &value) {
+    return unique_ptr<_Tp>(new _Tp(value));
 }
 
 } // namespace sjtu
